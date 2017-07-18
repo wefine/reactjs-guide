@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import StarRating from './StarRating';
-import '../css/Color.scss';
+import '../css/Color.css';
 
 const Color = ({title, color, rating = 0, onRemove = f => f, onRate = f => f}) =>
     <section className="color">
