@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Common Features</title>
+</head>
+<body>
+
+</body>
+<script>
+//    // Before
+//    function decimal(num, fix) {
+//        fix = fix === void(0) ? 2 : fix;
+//
+//        return +num.toFixed(fix);
+//    }
+//
+//    // After
+//    function decimal(num, fix = 2) {
+//        return +num.toFixed(fix);
+//    }
+//
+//    console.log(void(0));
+//    console.log(decimal(120.336));
+//
+//    // Before
+//    let type = 'simple';
+//    let before = 'This is a ' + type + ' string join.';
+//
+//    // After
+//    let type = 'singleline';
+//    let now = `This is a ${type} string.`
+//
+//    // 数组解构
+//    var [a, ,b] = [1, 2, 3, 4, 5];
+//    console.log(a); // => 1
+//    console.log(b); // => 3
+//
+//    // 对象解构
+//    var {b, c} = {a: 1, b: 2, c: 3};
+//    console.log(b); // => 2
+//    console.log(c); // => 3
+//
+//    // 对象匹配解构
+//    var example = function() {
+//        return {a: 1, b: 2, c: 3};
+//    };
+//    var {a: d, b: e, c: f} = example();
+//    console.log(d, e, f); // => 1, 2, 3
+//
+//    // 函数入参解构
+//    function example({param: value}) {
+//        return value;
+//    }
+//    console.log(example({param: 5})); // => 5
+//
+//    // 函数入参默认值解构
+//    function example({x, y, z = 0}) {
+//        return x + y + z;
+//    }
+//    console.log(example({x: 1, y: 2}));       // => 3
+//    console.log(example({x: 1, y: 2, z: 3})); // => 6
+//
+//    // 无变量提升
+//    // Before
+//    console.log(num); // => undefined
+//    var num = 1;
+//
+//    // After
+//    console.log(num); // => ReferenceError
+//    let num = 1;
+//
+//    // 有块级作用域
+//    // Before
+//    {
+//        var num = 1;
+//
+//        console.log(num); // => 1
+//    }
+//    console.log(num);     // => 1
+//
+//    // After
+//    {
+//        let num = 1;
+//
+//        console.log(num); // => 1
+//    }
+//    console.log(num);     // => ReferenceError
+//
+//    // 禁止重复声明
+//    // Before
+//    var dev = true;
+//    var dev = false;
+//
+//    console.log(dev); // => false
+//    // After
+//    let dev = true;
+//    let dev = false; // => SyntaxError
+//
+//    // 禁止重复赋值
+//    const DEV = true;
+//    DEV = false; // => TypeError
+
+//    const DEV; // => SyntaxError
+
+//    Number
+
+//    Number.EPSILON;
+    Number.isInteger(Infinity); // => false
+    Number.isNaN('NaN');        // => false
+    console.log(" Number.isNaN('NaN')=" + Number.isNaN('NaN'));
+    console.log(" Number.isNaN('9')=" + Number.isNaN('9'));
+    console.log(" Number.isNaN(9)=" + Number.isNaN(9));
+    console.log(" Number.isNaN(Number.NaN)=" + Number.isNaN(Number.NaN));
+
+'abcde'.includes('cd'); // => true
+'abc'.repeat(3);        // => 'abcabcabc'
+'abc'.startsWith('a');  // => true
+'abc'.endsWith('c');    // => true
+
+Array.from(document.querySelectorAll('*')); // => returns a real array.
+[0, 0, 0].fill(7, 1); // => [0, 7, 7]
+[1, 2, 3].findIndex(function(x) {
+    return x === 2;
+}); // => 1
+['a', 'b', 'c'].entries(); // => Iterator [0: 'a'], [1: 'b'], [2: 'c']
+['a', 'b', 'c'].keys();    // => Iterator 0, 1, 2
+['a', 'b', 'c'].values();  // => Iterator 'a', 'b', 'c'
+// Before
+new Array();        // => []
+new Array(4);       // => [,,,]
+new Array(4, 5, 6); // => [4, 5, 6]
+// After
+Array.of();         // => []
+Array.of(4);        // => [4]
+Array.of(4, 5, 6);  // => [4, 5, 6]
+
+let target = {
+    a: 1,
+    b: 3
+};
+let source = {
+    b: 2,
+    c: 3
+};
+
+Object.assign(target, source); // => { a: 1, b: 2, c: 3}
+
+Math.sign(5);     // => +1
+Math.sign(0);     // => 0
+Math.sign(-5);    // => -1
+
+Math.trunc(4.1);  // => 4
+Math.trunc(-4.1); // => -4
+
+let arr = [1, 2, 3, 4, 5, 6];
+
+// Before
+arr.filter(function(v) {
+    return v > 3;
+});
+// After
+arr.filter(v => v > 3); // => [4, 5, 6]
+
+let arr = [1, 2, 3, 4, 5, 6];
+
+arr.map((v, k, thisArr) => {
+    return thisArr.reverse()[k] * v;
+})  // => [6, 10, 12, 12, 10, 6]
+
+// 函数上下文 this
+// Before
+var obj = {
+    arr: [1, 2, 3, 4, 5, 6],
+    getMaxPow2: function() {
+        var that = this,
+            getMax = function() {
+                return Math.max.apply({}, that.arr);
+            };
+
+        return Math.pow(getMax(), 2);
+    }
+};
+// After
+var obj = {
+    arr: [1, 2, 3, 4, 5, 6],
+    getMaxPow2: function() {
+        var getMax = () => {
+            return Math.max.apply({}, this.arr);
+        }
+
+        return Math.pow(getMax(), 2);
+    }
+}
+
+function getSum() {
+    var example = () => {
+        return Array
+            .prototype
+            .reduce
+            .call(arguments, (pre, cur) => pre + cur);
+    }
+
+    return example();
+}
+getSum(1, 2, 3); // => 6
+
+/* 类不会被提升 */
+let puppy = new Animal('puppy'); // => ReferenceError
+
+class Animal {
+    constructor(name) {
+        this.name = name;
+    }
+
+    sleep() {
+        console.log(`The ${this.name} is sleeping...`);
+    }
+
+    static type() {
+        console.log('This is an Animal class.');
+    }
+}
+
+/* 类不会被提升 */
+let puppy = new Animal('puppy'); // => ReferenceError
+
+class Animal {
+    constructor(name) {
+        this.name = name;
+    }
+
+    sleep() {
+        console.log(`The ${this.name} is sleeping...`);
+    }
+
+    static type() {
+        console.log('This is an Animal class.');
+    }
+}
+
+let puppy = new Animal('puppy');
+
+puppy.sleep();    // => The puppy is sleeping...
+
+/* 实例化后无法访问静态方法 */
+puppy.type();     // => TypeError
+
+Animal.type();    // => This is an Animal class.
+
+/* 实例化前无法访问动态方法 */
+Animal.sleep();   // => TypeError
+
+/* 类不能重复定义 */
+class Animal() {} // => SyntaxError
+
+class Programmer extends Animal {
+    constructor(name) {
+        /* 在 super 方法之前 this 不可用 */
+        console.log(this); // => ReferenceError
+        super(name);
+        console.log(this); // Right!
+    }
+
+    program() {
+        console.log("I'm coding...");
+    }
+
+    sleep() {
+        console.log('Save all files.');
+        console.log('Get into bed.');
+        super.sleep();
+    }
+}
+
+let coder = new Programmer('coder');
+coder.program(); // => I'm coding...
+coder.sleep();   // => Save all files. => Get into bed. => The coder is sleeping.
+
+export const DEV = true;
+export function example() {
+    //...
+}
+export class expClass {
+    //...
+}
+export let obj = {
+    DEV,
+    example,
+    expClass,
+    //...
+}
+
+// module example.js
+const DEV = true;
+function example() {
+    //...
+}
+class expClass {
+    //...
+}
+let obj = {
+    DEV,
+    example,
+    expClass,
+    //...
+}
+// module example.js
+export {DEV, example, expClass, obj};
+export {DEV, example as exp, expClass, obj};
+
+export default {DEV, example as exp, expClass, obj};
+// OR
+export default obj;
+// OR
+export default const DEV = true;
+
+import example from './example.js';
+// OR
+import default as example from './example.js';
+
+
+import {DEV, example} from './example.js';
+import * as exp from './example.js';
+import {default as expMod, * as expAll, DEV, example as exp} from './example.js';
+
+import {DEV, example, expClass as EC} from './example.js';
+
+if(DEV) {
+    let exp = new EC();
+    // anything you want...
+    example();
+}
+</script>
+</html>
