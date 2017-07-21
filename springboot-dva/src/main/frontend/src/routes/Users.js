@@ -1,12 +1,12 @@
+import { connect } from 'dva';
 import React from 'react';
-import {connect} from 'dva';
 import styles from './Users.css';
 
 function Users() {
   return (
-    <div className={styles.normal}>
+    <div className={styles.normal} >
       Route Component: Users
-    </div>
+    </div >
   );
 }
 
