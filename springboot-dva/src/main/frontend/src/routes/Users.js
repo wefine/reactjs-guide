@@ -1,13 +1,16 @@
-import React from 'react';
 import { connect } from 'dva';
-import styles from './Users.css';
+import React from 'react';
+import MainLayout from '../components/MainLayout/MainLayout';
 import UsersComponent from '../components/Users/Users';
+import styles from './Users.css';
 
-function Users() {
+function Users({ location }) {
   return (
-    <div className={styles.normal}>
-      <UsersComponent />
-    </div>
+    <MainLayout location={location}>
+      <div className={styles.normal}>
+        <UsersComponent />
+      </div>
+    </MainLayout>
   );
 }
 
