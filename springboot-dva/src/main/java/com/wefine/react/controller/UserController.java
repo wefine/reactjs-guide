@@ -5,6 +5,9 @@ import com.wefine.react.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,15 +30,27 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> findAll() {
-        log.info("findAll...finding");
+    public ResponseEntity<List<User>> findByPaging(
+            @RequestParam(value = "_page", defaultValue = "1") int page,
+            @RequestParam(value = "_limit", defaultValue = "10") int limit) {
+        log.info("findByPaging...page=" + page + "; limit=" + limit);
         try {
             Thread.sleep(2000L);
         } catch (InterruptedException ignored) {
         }
 
         log.info("size = " + userList.size());
-        return userList;
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("x-total-count", "" + userList.size());
+
+        int start = (page - 1) * limit;
+        int end = page * limit;
+        if (end > userList.size()) {
+            end = userList.size();
+        }
+
+        return new ResponseEntity<>(userList.subList(start, end), headers, HttpStatus.OK);
     }
 
     @DeleteMapping(path = "{id}")
