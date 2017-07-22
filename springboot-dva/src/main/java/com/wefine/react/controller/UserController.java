@@ -29,6 +29,11 @@ public class UserController {
 
     @GetMapping
     public List<User> findAll() {
+        log.info("findAll...finding");
+        try {
+            Thread.sleep(2000L);
+        } catch (InterruptedException ignored) {
+        }
         return userList;
     }
 }

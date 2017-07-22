@@ -1,12 +1,20 @@
-import React from 'react';
+import { Pagination, Popconfirm, Table } from 'antd';
 import { connect } from 'dva';
-import { Table, Pagination, Popconfirm } from 'antd';
-import styles from './Users.css';
+import { routerRedux } from 'dva/router';
+import React from 'react';
 import { PAGE_SIZE } from '../../constants';
+import styles from './Users.css';
 
-function Users({ list: dataSource, loading, total, page: current }) {
+function Users({ dispatch, list: dataSource, loading, total, page: current }) {
   function deleteHandler(id) {
     this.deleteId = id;
+  }
+
+  function pageChangeHandler(page) {
+    dispatch(routerRedux.push({
+      pathname: '/users',
+      query: { page },
+    }));
   }
 
   const columns = [
@@ -55,6 +63,7 @@ function Users({ list: dataSource, loading, total, page: current }) {
           total={total}
           current={current}
           pageSize={PAGE_SIZE}
+          onChange={pageChangeHandler}
         />
       </div>
     </div>
