@@ -5,11 +5,10 @@ import com.wefine.react.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @RestController
@@ -34,6 +33,19 @@ public class UserController {
             Thread.sleep(2000L);
         } catch (InterruptedException ignored) {
         }
+
+        log.info("size = " + userList.size());
         return userList;
+    }
+
+    @DeleteMapping(path = "{id}")
+    public void deleteUser(@PathVariable(name = "id") Long id) {
+        log.info("deleteUser...id=" + id);
+        for (User user : userList) {
+            if (Objects.equals(user.getId(), id)) {
+                userList.remove(user);
+                break;
+            }
+        }
     }
 }

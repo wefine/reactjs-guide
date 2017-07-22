@@ -7,7 +7,10 @@ import styles from './Users.css';
 
 function Users({ dispatch, list: dataSource, loading, total, page: current }) {
   function deleteHandler(id) {
-    this.deleteId = id;
+    dispatch({
+      type: 'users/remove',
+      payload: id,
+    });
   }
 
   function pageChangeHandler(page) {
