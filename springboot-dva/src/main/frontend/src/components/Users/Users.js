@@ -6,7 +6,7 @@ import { PAGE_SIZE } from '../../constants';
 
 function Users({ list: dataSource, total, page: current }) {
   function deleteHandler(id) {
-    console.info(`TODO: ${id}`);
+    this.deleteId = id;
   }
 
   const columns = [
