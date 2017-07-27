@@ -1,6 +1,9 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { createLogger } from 'redux-logger'
-
+import App from './App';
 
 const mathReducer = (state = { result: 1, lastValues: [] }, action) => {
     switch (action.type) {
@@ -44,7 +47,7 @@ const userReducer = (state = { name: 'Wefine', age: 18 }, action) => {
     return state;
 };
 
-const myLogger = createLogger({
+const logger = createLogger({
     predicate: (getState, action) => {
         let skipped = true;
         if (action.type === 'ADD') {
@@ -57,8 +60,8 @@ const myLogger = createLogger({
 });
 
 const store = createStore(
-    combineReducers({ mathReducer, userReducer }),
-    applyMiddleware(myLogger)
+    combineReducers({ math: mathReducer, user: userReducer }),
+    applyMiddleware(logger)
 );
 
 store.subscribe(() => {
@@ -84,3 +87,10 @@ store.dispatch({
     type: 'SET_AGE',
     payload: 30
 });
+
+ReactDOM.render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.getElementById('root')
+);
