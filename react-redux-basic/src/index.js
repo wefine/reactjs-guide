@@ -1,37 +1,50 @@
-import {createStore} from 'redux';
+import { createStore } from 'redux';
 
-const reducer = (state, action) => {
+const initialState = {
+    result: 1,
+    lastValues: [],
+    name: 'Wefine'
+};
+
+const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case "ADD":
-            state += action.payload;
+        case 'ADD':
+            state = {
+                ...state,
+                result: state.result + action.payload,
+                lastValues: [...state.lastValues, action.payload]
+            };
             break;
-        case "SUB":
-            state -= action.payload;
+        case 'SUBTRACT':
+            state = {
+                ...state,
+                result: state.result - action.payload,
+                lastValues: [...state.lastValues, action.payload]
+            };
             break;
         default:
             break;
     }
-
     return state;
 };
 
-const store = createStore(reducer, 1);
+const store = createStore(reducer);
 
 store.subscribe(() => {
-    console.log("updated state: " + store.getState())
+    console.log('updated state: ' + JSON.stringify(store.getState()));
 });
 
 store.dispatch({
-    type: "ADD",
+    type: 'ADD',
     payload: 100
 });
 
 store.dispatch({
-    type: "ADD",
+    type: 'ADD',
     payload: 100
 });
 
 store.dispatch({
-    type: "SUB",
+    type: 'SUB',
     payload: 110
 });
