@@ -1,12 +1,7 @@
-import { createStore } from 'redux';
+import { combineReducers, createStore } from 'redux';
 
-const initialState = {
-    result: 1,
-    lastValues: [],
-    name: 'Wefine'
-};
 
-const reducer = (state = initialState, action) => {
+const mathReducer = (state = { result: 1, lastValues: [] }, action) => {
     switch (action.type) {
         case 'ADD':
             state = {
@@ -15,7 +10,7 @@ const reducer = (state = initialState, action) => {
                 lastValues: [...state.lastValues, action.payload]
             };
             break;
-        case 'SUBTRACT':
+        case 'SUB':
             state = {
                 ...state,
                 result: state.result - action.payload,
@@ -28,7 +23,27 @@ const reducer = (state = initialState, action) => {
     return state;
 };
 
-const store = createStore(reducer);
+const userReducer = (state = { name: 'Max', age: 18 }, action) => {
+    switch (action.type) {
+        case 'SET_NAME':
+            state = {
+                ...state,
+                name: action.payload
+            };
+            break;
+        case 'SET_AGE':
+            state = {
+                ...state,
+                age: action.payload
+            };
+            break;
+        default:
+            break;
+    }
+    return state;
+};
+
+const store = createStore(combineReducers({ mathReducer, userReducer }));
 
 store.subscribe(() => {
     console.log('updated state: ' + JSON.stringify(store.getState()));
