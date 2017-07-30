@@ -1,6 +1,10 @@
-const userReducer = (state = { name: 'Wefine', age: 18 }, action) => {
+const userReducer = (state = {name: 'Wefine', age: 18}, action) => {
     switch (action.type) {
-        case 'SET_NAME':
+        case 'SET_NAME_PENDING':
+            return {
+                isPending: true
+            };
+        case "SET_NAME_FULFILLED":
             state = {
                 ...state,
                 name: action.payload

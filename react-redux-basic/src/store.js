@@ -1,7 +1,11 @@
-import { applyMiddleware, combineReducers, createStore } from 'redux';
-import { createLogger } from 'redux-logger'
-import mathReducer from './reducer/mathReducer';
-import userReducer from './reducer/userReducer';
+import {applyMiddleware, combineReducers, createStore} from 'redux';
+import {createLogger} from 'redux-logger'
+import math from './reducer/mathReducer';
+import user from './reducer/userReducer';
+
+
+import promise from 'redux-promise-middleware';
+import thunk from 'redux-thunk';
 
 const logger = createLogger({
     predicate: (getState, action) => {
@@ -16,32 +20,13 @@ const logger = createLogger({
 });
 
 const store = createStore(
-    combineReducers({ math: mathReducer, user: userReducer }),
-    applyMiddleware(logger)
+    combineReducers({math, user}),
+    applyMiddleware(logger, thunk, promise())
 );
 
 store.subscribe(() => {
     console.log('updated state: ' + JSON.stringify(store.getState()));
 });
 
-store.dispatch({
-    type: 'ADD',
-    payload: 100
-});
-
-store.dispatch({
-    type: 'ADD',
-    payload: 100
-});
-
-store.dispatch({
-    type: 'SUB',
-    payload: 110
-});
-
-store.dispatch({
-    type: 'SET_AGE',
-    payload: 30
-});
 
 export default store;
