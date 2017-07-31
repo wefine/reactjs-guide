@@ -1,11 +1,11 @@
 export default {
-    namespace: 'inputs',
-    state: {
-        input: 'name',
+  namespace: 'inputs',
+  state: {
+    input: 'name',
+  },
+  reducers: {
+    change(state, { payload: name }) {
+      return { input: name };
     },
-    reducers: {
-        change(state, { payload: name }) {
-            return { input: name }
-        },
-    },
+  },
 };

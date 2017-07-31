@@ -1,14 +1,16 @@
+/* global require */
+
 import dva from 'dva';
 import './index.css';
 
 // 1. Initialize
 const app = dva({
-    initialState: {
-        lists: [
-            { name: 'dva', id: 1 },
-            { name: 'antd', id: 2 },
-        ]
-    },
+  initialState: {
+    lists: [
+      { name: 'dva', id: 1 },
+      { name: 'antd', id: 2 },
+    ],
+  },
 });
 
 

@@ -1,11 +1,11 @@
 import React from 'react';
 
 const Example = () => {
-    return (
-        <div>
-            Example
-        </div>
-    );
+  return (
+    <div>
+      Example
+    </div>
+  );
 };
 
 Example.propTypes = {};
