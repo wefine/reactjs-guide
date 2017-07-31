@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import Main from '../component/Main';
 import User from '../component/User';
 
+import {setName} from '../action/userActions';
+
 class App extends Component {
     render() {
         return (
@@ -24,10 +26,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setName: (name) => {
-            dispatch({
-                type: 'SET_NAME',
-                payload: name
-            });
+            dispatch(setName(name));
         }
     };
 };
