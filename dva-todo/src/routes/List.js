@@ -8,21 +8,21 @@ const Lists = ({ dispatch, lists, inputs }) => {
   function handleDelete(id) {
     dispatch({
       type: 'lists/delete',
-      payload: id,
+      payload: id
     });
   }
 
   function handleAdd() {
     dispatch({
       type: 'lists/add',
-      payload: inputs.input,
+      payload: inputs.input
     });
   }
 
   function handelChange(e) {
     dispatch({
       type: 'inputs/change',
-      payload: e.target.value,
+      payload: e.target.value
     });
   }
 
@@ -40,6 +40,6 @@ const Lists = ({ dispatch, lists, inputs }) => {
 
 // export default Lists;
 export default connect(({ inputs, lists }) => ({
-  inputs, lists,
+  inputs, lists
 }))(Lists);
 

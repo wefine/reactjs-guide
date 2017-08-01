@@ -6,11 +6,11 @@ const List = ({ onDelete, lists }) => {
   const columns = [
     {
       title: '编号',
-      dataIndex: 'id',
+      dataIndex: 'id'
     },
     {
       title: '名称',
-      dataIndex: 'name',
+      dataIndex: 'name'
     },
     {
       title: '操作',
@@ -21,8 +21,8 @@ const List = ({ onDelete, lists }) => {
             <a href="">删除</a>
           </Popconfirm>
         );
-      },
-    },
+      }
+    }
   ];
   return (
     <Table
@@ -35,12 +35,12 @@ const List = ({ onDelete, lists }) => {
 };
 
 List.defaultProps = {
-  displayName: 'todoList',
+  displayName: 'todoList'
 };
 
 List.propTypes = {
   onDelete: PropTypes.func.isRequired,
-  lists: PropTypes.array.isRequired,
+  lists: PropTypes.array.isRequired
 };
 
 export default List;

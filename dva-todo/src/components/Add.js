@@ -18,7 +18,7 @@ const Add = ({ onAdd, onChange, input }) => {
 
 Add.propTypes = {
   onAdd: PropTypes.func.isRequired,
-  input: PropTypes.string.isRequired,
+  input: PropTypes.string.isRequired
 };
 
 export default Add;
