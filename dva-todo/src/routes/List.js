@@ -38,8 +38,10 @@ const Lists = ({ dispatch, lists, inputs }) => {
   );
 };
 
-// export default Lists;
-export default connect(({ inputs, lists }) => ({
-  inputs, lists
-}))(Lists);
+const mapStateToProps = ({ inputs, lists }) => {
+  // 属性解析赋值处理
+  return { inputs, lists };
+};
 
+// export default Lists;
+export default connect(mapStateToProps)(Lists);
