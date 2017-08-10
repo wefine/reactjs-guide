@@ -1,8 +1,8 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import NavLink from './NavLink';
-import PropTypes from 'prop-types';
 
-const repos = (props, context) => {
+const repos = ({router, children}) => {
 
     const handleSubmit = event => {
         event.preventDefault();
@@ -11,7 +11,7 @@ const repos = (props, context) => {
         const path = `/repos/${userName}/${repo}`;
         console.log(path);
 
-        context.router.push(path);
+        router.push(path);
     };
 
     return (
@@ -23,21 +23,22 @@ const repos = (props, context) => {
                 {/* add this form */}
                 <li>
                     <form onSubmit={handleSubmit}>
-                        <input type="text" placeholder="userName"/> / {' '}
-                        <input type="text" placeholder="repo"/>{' '}
+                        <input type="text" placeholder="userName" /> / {' '}
+                        <input type="text" placeholder="repo" />{' '}
                         <button type="submit">Go</button>
                     </form>
                 </li>
             </ul>
-            {props.children}
+            {children}
         </div>
     )
 };
 
-repos.contextTypes = {
-    router: PropTypes.object
+repos.propTypes = {
+    router: PropTypes.shape({
+        push: PropTypes.func.isRequired
+    }).isRequired
 };
-
 
 export default repos;
 
