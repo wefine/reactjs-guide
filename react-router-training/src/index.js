@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { hashHistory, IndexRoute, Route, Router } from 'react-router'
+import { browserHistory, IndexRoute, Route, Router } from 'react-router'
 import App from './App';
 import './index.css';
 import About from './modules/About'
@@ -12,7 +12,7 @@ import Repos from './modules/Repos'
 import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(
-    <Router history={hashHistory}>
+    <Router history={browserHistory}>
         <Route path="/" component={App}>
             <IndexRoute component={Home} />
             <Route path="repos" component={Repos}>
