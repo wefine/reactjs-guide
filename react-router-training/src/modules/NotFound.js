@@ -1,7 +1,9 @@
 import React from 'react'
 
-export default React.createClass({
-    render() {
-        return <div>NotFound!</div>
-    }
-})
+const notfound = () => {
+    return (
+        <div>Not Found</div>
+    )
+};
+
+export default notfound;

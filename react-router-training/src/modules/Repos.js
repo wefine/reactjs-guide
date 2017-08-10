@@ -1,7 +1,9 @@
 import React from 'react'
 
-export default React.createClass({
-    render() {
-        return <div>Repos</div>
-    }
-})
+const repos = () => {
+    return (
+        <div>Repos</div>
+    )
+};
+
+export default repos;
