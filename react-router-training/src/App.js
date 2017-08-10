@@ -7,6 +7,7 @@ const app = (props) => {
         <div>
             <h1>React Router Tutorial</h1>
             <ul>
+                <li><NavLink to="/">Home</NavLink></li>
                 <li><NavLink to="/about">About</NavLink></li>
                 <li><NavLink to="/repos">Repos</NavLink></li>
             </ul>
