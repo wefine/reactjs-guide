@@ -36,3 +36,23 @@ yarn add -D babel-plugin-react-intl
   }
 }
 ```
+
+## scss
+```bash
+yarn add node-sass-chokidar npm-run-all
+
+```
+package.json
+```json
+{
+  "scripts": {
+    "build-css": "node-sass-chokidar src/ -o src/",
+    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "start-js": "react-scripts start",
+    "start": "npm-run-all -p watch-css start-js",
+    "build": "npm run build-css && react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
+```
