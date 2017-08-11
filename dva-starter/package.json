@@ -15,8 +15,10 @@
     "dva": "^1.2.1",
     "dva-loading": "^0.2.1",
     "less-vars-to-js": "^1.2.0",
+    "prop-types": "^15.5.10",
     "react": "^15.4.0",
-    "react-dom": "^15.4.0"
+    "react-dom": "^15.4.0",
+    "react-intl": "^2.3.0"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
