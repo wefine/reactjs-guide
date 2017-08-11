@@ -1,8 +1,9 @@
-import { Button, DatePicker, Icon, message } from 'antd';
+import { Button, DatePicker, Icon, message, LocaleProvider } from 'antd';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.less';
+import enUS from 'antd/lib/locale-provider/en_US';
 
 class App extends React.Component {
     constructor(props) {
@@ -29,4 +30,8 @@ class App extends React.Component {
     }
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+    <LocaleProvider locale={enUS}>
+        <App />
+    </LocaleProvider>,
+    document.getElementById('root'));
