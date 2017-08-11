@@ -1,6 +1,8 @@
-import { DatePicker, message } from 'antd';
+import { Button, DatePicker, Icon, message } from 'antd';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './index.less';
 
 class App extends React.Component {
     constructor(props) {
@@ -20,6 +22,8 @@ class App extends React.Component {
             <div style={{ width: 400, margin: '100px auto' }}>
                 <DatePicker onChange={value => this.handleChange(value)} />
                 <div style={{ marginTop: 20 }}>当前日期：{this.state.date.toString()}</div>
+
+                <Button type="primary"><Icon type="smile" /> Button</Button>;
             </div>
         );
     }
