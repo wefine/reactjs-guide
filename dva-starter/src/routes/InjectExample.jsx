@@ -18,7 +18,7 @@ const messages = defineMessages({
   },
 });
 
-const InjectExample = ({intl}) => {
+const InjectExample = ({ intl }) => {
   const handleClick = () => {
     alert(intl.formatMessage(messages.alert));
   };
@@ -38,5 +38,6 @@ InjectExample.propTypes = {
 };
 
 export default injectIntl(InjectExample, {
-  withRef: true,
+  // 无状态组件必须设置为 false，没有Ref引用。
+  withRef: false,
 });

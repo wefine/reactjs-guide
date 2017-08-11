@@ -7,8 +7,19 @@ import ReactDOM from 'react-dom';
 import { addLocaleData, IntlProvider } from 'react-intl';
 import './index.less';
 
-import './locales/en-US';
-// import './locales/zh-Hans-CN';
+/* eslint-disable global-require */
+const language = (navigator.languages && navigator.languages[0])
+  || navigator.language
+  || navigator.userLanguage;
+const languageWithoutRegionCode = language.toLowerCase().split(/[_-]+/)[0];
+
+if (languageWithoutRegionCode === 'en') {
+  require('./locales/en-US');
+} else {
+  require('./locales/zh-Hans-CN');
+}
+/* eslint-enable global-require */
+
 
 // 1. Initialize
 const app = dva();
