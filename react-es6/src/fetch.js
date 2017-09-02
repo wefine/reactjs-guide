@@ -1,4 +1,4 @@
-const getFetch = () => fetch('http://localhost:3000/data.json')
+const getFetch = () => fetch('http://localhost:3000/fetch.json')
     .then(function (res) {
         if (res.ok) {
             res.json().then(function (obj) {
