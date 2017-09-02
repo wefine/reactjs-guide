@@ -18,7 +18,13 @@ const postFetch = () => fetch('doAct.action', {
     credentials: 'include',
     body: 'foo=bar&lorem=ipsum'
 })
-    .then(json)
+    .then(function (res) {
+        if (res.ok) {
+            res.json().then(function (obj) {
+                console.log(obj["name"])
+            })
+        }
+    })
     .then(function (data) {
         console.log('Request succeeded with JSON response', data);
     })
