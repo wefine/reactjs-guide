@@ -1,5 +1,5 @@
 import { delay } from 'redux-saga';
-import { all, put, takeEvery } from 'redux-saga/effects';
+import { all, call, put, takeEvery } from 'redux-saga/effects';
 
 export function* helloSaga() {
     yield;
@@ -7,18 +7,18 @@ export function* helloSaga() {
 }
 
 export function* incrementAsync() {
-    console.log("incrementAsync 1");
-    yield delay(1000);
-    console.log("incrementAsync 2");
+    console.log('incrementAsync 1');
+    yield call(delay, 1000);
+    console.log('incrementAsync 2');
     yield put({ type: 'INCREMENT' });
-    console.log("incrementAsync 3");
+    console.log('incrementAsync 3');
 }
 
 export function* watchIncrementAsync() {
     yield takeEvery('INCREMENT_ASYNC', incrementAsync);
 }
 
-// 單一進入點，一次啟動所有 Saga
+// 统一入口
 export default function* rootSaga() {
     yield all([
         helloSaga(),
