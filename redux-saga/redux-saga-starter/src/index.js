@@ -4,23 +4,26 @@ import ReactDOM from 'react-dom';
 import { connect, Provider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import { put, select, take } from 'redux-saga/effects';
+import { call, fork, put, select, spawn, take } from 'redux-saga/effects';
 
 //============
 // Reducer
 //============
 const defaultState = {
-    color: 'yellow',
+    color0: 'yellow',
+    color1: 'red',
+    color2: 'blue',
     count: 0,
 };
 const reducer = (state = defaultState, action) => {
     console.info(action.type);
     switch (action.type) {
         case 'SET_COLOR':
-            return {
-                ...state,
-                color: action.payload,
-            };
+            let colorPos = 'color' + action.payload.pos;
+            let newState = { ...state };
+            newState[colorPos] = action.payload.color;
+
+            return newState;
         case 'BUTTON_COUNT':
             return {
                 ...state,
@@ -34,10 +37,10 @@ const reducer = (state = defaultState, action) => {
 //============
 // Actions
 //============
-function setColor(color) {
+function setColor(color, pos) {
     return {
         type: 'SET_COLOR',
-        payload: color
+        payload: { color, pos }
     };
 }
 
@@ -51,7 +54,7 @@ function buttonCount() {
 //============
 // APIs
 //============
-const colors = ['red', 'blue', 'green', 'orange', 'gray', 'black', 'coffee', 'purple', 'pink']
+const colors = ['red', 'blue', 'green', 'orange', 'gray', 'black', 'coffee', 'purple', 'pink'];
 
 function getColorApi() {
     return new Promise((resolve, reject) => {
@@ -66,13 +69,40 @@ function getColorApi() {
 // Saga (Monitor)
 //================
 
+function* rootFlow() {
+    // yield colorFlow();
+    // yield colorFlowFork();
+    yield colorFlowSpawn();
+    console.log('流程完成')
+}
+
 function* colorFlow() {
     yield take('BUTTON_COUNT');
-    let lastColor = yield select(state => state.color);
-    console.log('原来的颜色是', lastColor);
-    let color = yield getColorApi();
+    for (let i = 0; i < 3; i++) {
+        yield call(setColorGenerator, i)
+    }
+}
 
-    yield put(setColor(color));
+function* colorFlowFork() {
+    yield take('BUTTON_COUNT');
+    for (let i = 0; i < 3; i++) {
+        yield fork(setColorGenerator, i)
+    }
+}
+
+function* colorFlowSpawn() {
+    yield take('BUTTON_COUNT');
+    for (let i = 0; i < 3; i++) {
+        yield spawn(setColorGenerator, i)
+    }
+}
+
+function* setColorGenerator(pos) {
+    let lastColor = yield select(state => state['color' + pos]);
+    console.log(pos, '当前颜色是', lastColor);
+    let color = yield getColorApi();
+    console.log(pos, '修改后的颜色是', color);
+    yield put(setColor(color, pos));
 }
 
 //============
@@ -83,14 +113,18 @@ const mapStateToProps = (state = {}) => {
 };
 let Container = connect(mapStateToProps)(createReactClass({
     render: function () {
-        const { count, dispatch, color } = this.props;
+        const { count, dispatch, color0, color1, color2 } = this.props;
         return (
             <div>
-                <div style={{ backgroundColor: color, width: '200px', height: '200px' }}>
-
+                <div style={{ backgroundColor: color0, width: '50px', height: '50px' }}>
                 </div>
-                <h2> {count} </h2>
-                <button onClick={() => dispatch(buttonCount())}>点击计数</button>
+                <div style={{ backgroundColor: color1, width: '50px', height: '50px' }}>
+                </div>
+                <div style={{ backgroundColor: color2, width: '50px', height: '50px' }}>
+                </div>
+
+                <button onClick={() => dispatch(buttonCount())}>按钮</button>
+                <h2>{count}</h2>
             </div>
         );
     }
@@ -104,7 +138,7 @@ const store = createStore(
     reducer,
     applyMiddleware(sagaMiddleware)
 );
-sagaMiddleware.run(colorFlow);
+sagaMiddleware.run(rootFlow);
 
 
 //============
