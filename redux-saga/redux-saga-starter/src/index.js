@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { connect, Provider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import { call, fork, put, select, spawn, take } from 'redux-saga/effects';
+import { call, fork, put, select, spawn, take, takeEvery, takeLatest } from 'redux-saga/effects';
 
 //============
 // Reducer
@@ -44,9 +44,16 @@ function setColor(color, pos) {
     };
 }
 
-function buttonCount() {
+function buttonCount(pos) {
     return {
         type: 'BUTTON_COUNT',
+        payload: pos
+    }
+}
+
+function cancel() {
+    return {
+        type: 'CANCEL',
         payload: ''
     }
 }
@@ -68,37 +75,26 @@ function getColorApi() {
 //================
 // Saga (Monitor)
 //================
+function* rootFlow(){
+    // yield takeEvery('BUTTON_COUNT', colorFlow);
+    yield takeLatest('BUTTON_COUNT', colorFlow);
+    /*
+    const { response, cancel } = yield race({
+    	response: takeEvery('BUTTON_COUNT', colorFlow),
+    	cancel: take('CANCEL')
+  	});
+    console.log('如果response 为 undefined 即表示被取消', response)
+    */
 
-function* rootFlow() {
-    // yield colorFlow();
-    // yield colorFlowFork();
-    yield colorFlowSpawn();
     console.log('流程完成')
 }
 
-function* colorFlow() {
-    yield take('BUTTON_COUNT');
-    for (let i = 0; i < 3; i++) {
-        yield call(setColorGenerator, i)
-    }
-}
+function* colorFlow(action) {
+    let pos = action.payload;
+    console.log("pos=", pos);
 
-function* colorFlowFork() {
-    yield take('BUTTON_COUNT');
-    for (let i = 0; i < 3; i++) {
-        yield fork(setColorGenerator, i)
-    }
-}
-
-function* colorFlowSpawn() {
-    yield take('BUTTON_COUNT');
-    for (let i = 0; i < 3; i++) {
-        yield spawn(setColorGenerator, i)
-    }
-}
-
-function* setColorGenerator(pos) {
     let lastColor = yield select(state => state['color' + pos]);
+
     console.log(pos, '当前颜色是', lastColor);
     let color = yield getColorApi();
     console.log(pos, '修改后的颜色是', color);
@@ -116,14 +112,17 @@ let Container = connect(mapStateToProps)(createReactClass({
         const { count, dispatch, color0, color1, color2 } = this.props;
         return (
             <div>
-                <div style={{ backgroundColor: color0, width: '50px', height: '50px' }}>
+                <div style={{backgroundColor:color0, width:'50px', height:'50px'}}>
                 </div>
-                <div style={{ backgroundColor: color1, width: '50px', height: '50px' }}>
+                <button onClick={()=>dispatch(buttonCount(0))}>按钮0</button>
+                <div style={{backgroundColor:color1, width:'50px', height:'50px'}}>
                 </div>
-                <div style={{ backgroundColor: color2, width: '50px', height: '50px' }}>
+                <button onClick={()=>dispatch(buttonCount(1))}>按钮1</button>
+                <div style={{backgroundColor:color2, width:'50px', height:'50px'}}>
                 </div>
+                <button onClick={()=>dispatch(buttonCount(2))}>按钮2</button>
+                <button onClick={()=>dispatch(cancel())}>取消</button>
 
-                <button onClick={() => dispatch(buttonCount())}>按钮</button>
                 <h2>{count}</h2>
             </div>
         );
