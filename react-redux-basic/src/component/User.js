@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-const User = (props) => {
+const User = ({name}) => {
     return (
         <div>
             <div className="row">
@@ -11,7 +12,7 @@ const User = (props) => {
             </div>
             <div className="row">
                 <div className="col-xs-12">
-                    <p>User Name: {props.username}</p>
+                    <p>User Name: {name}</p>
                 </div>
             </div>
         </div>
@@ -19,7 +20,13 @@ const User = (props) => {
 };
 
 User.propTypes = {
-    username: PropTypes.string
+    name: PropTypes.string
 };
 
-export default User;
+const mapStateToProps = (state) => {
+    return {
+        name: state.user.name
+    }
+};
+
+export default connect(mapStateToProps)(User);

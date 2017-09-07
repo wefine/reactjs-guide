@@ -10,7 +10,7 @@ class App extends Component {
         return (
             <div className="container">
                 <Main changeUsername={() => this.props.setName('Anna')} />
-                <User username={this.props.user.name} />
+                <User />
             </div>
         );
     }
