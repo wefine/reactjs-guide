@@ -16,9 +16,9 @@ class Overlay extends Component {
     render() {
         return ReactDOM.createPortal(
             <div className="overlay">
-                <span className="overlay__close" onClick={this.props.onClose}>
-                  &times;
-                </span>
+        <span className="overlay__close" onClick={this.props.onClose}>
+          &times;
+        </span>
                 {this.props.children}
             </div>,
             this.container
